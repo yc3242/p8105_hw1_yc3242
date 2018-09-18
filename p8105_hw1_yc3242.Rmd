@@ -1,6 +1,23 @@
 ---
 title: "p8105_hw1_yc3242"
 author: "Youn Kyeong Chang (uni# yc3242)"
-date: "September 17, 2018"
+date: "2018-09-17"
 output: github_document
 ---
+
+We use the tidyverse library through the whole problem set.
+```{r library}
+library(tidyverse)
+```
+
+# Problem 1
+
+```{r p1_create_df}
+df_p1 = tibble(
+  vec_num = runif(10, min = 0, max = 5),
+  vec_logi = vec_num > 2,
+  vec_char = c("j", "O", "O", "N", "h", "e", "e", "K", "W", "n"),
+  vec_fac = factor(c("upper", "lower", "lower", "upper", "upper", "lower", 
+                     "upper", "upper", "lower", "upper"))
+)
+```
