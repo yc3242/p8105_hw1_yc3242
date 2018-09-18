@@ -21,3 +21,12 @@ df_p1 = tibble(
                      "upper", "upper", "lower", "upper"))
 )
 ```
+
+```{r p1_mean}
+mean(df_p1$vec_num)
+mean(df_p1$vec_logi)
+mean(df_p1$vec_char)
+mean(df_p1$vec_fac)
+```
+The mean of numeric and logical vectors can be calculated in that they are numerical variables. 
+However, that of character and factor vectors cannot be taken because they are categorical variables.   
