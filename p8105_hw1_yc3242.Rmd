@@ -17,7 +17,7 @@ df_p1 = tibble(
   vec_num = runif(10, min = 0, max = 5),
   vec_logi = vec_num > 2,
   vec_char = c("j", "O", "O", "N", "h", "e", "e", "K", "W", "n"),
-  vec_fac = factor(c("upper", "lower", "lower", "upper", "upper", "lower", 
+  vec_fac = as.factor(c("upper", "lower", "lower", "upper", "upper", "lower", 
                      "upper", "upper", "lower", "upper"))
 )
 ```
@@ -42,4 +42,18 @@ Logical and factor vectors were converted to numeric vectors but character vecto
 as.numeric(as.factor(df_p1$vec_char))
 ```
 Character vector was converted to numeric vector. 
+
+# Problem 2
+
+```{r p2_create_df}
+df_p2 = tibble(
+  x = rnorm(1000),
+  y = rnorm(1000),
+  pos_xy = x + y > 0,
+  num_pos_xy = as.numeric(pos_xy),
+  fac_pos_xy = as.factor(pos_xy)
+)
+```
+
+The **size** of the dataset df_p2 is `r dim(df_p2)`. In this dataset, the **mean** and the **median** of **x** is `r round(mean(df_p2$x), 2)` and `r round(median(df_p2$x), 2)`, respectively. Also, the **mean** and the **median** of **y** is `r round(mean(df_p2$y), 2)` and `r round(median(df_p2$y), 2)`, respectively. The **proportion** of cases for which the logical vector is _TRUE_ is `r round(sum(df_p2$num_pos_xy)/nrow(df_p2), 2)`. 
 
