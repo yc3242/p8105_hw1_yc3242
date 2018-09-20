@@ -79,3 +79,7 @@ fac_pos_xy_scatter = ggplot(df_p2, aes(x = x, y = y, color = fac_pos_xy)) + geom
 To evaluate the binary value for ``x + y > 0``, while the logical vector ``pos_xy`` and the factor vector `` fac_pos_xy`` have the same binary color scale, the numeric vector ``num_pos_xy`` has different binary colors with a gradient legend.
 
 ### Save a scattorplot
+```{r}
+ggsave("scatterplot_p2.pdf", plot = pos_xy_scatter)
+```
+
