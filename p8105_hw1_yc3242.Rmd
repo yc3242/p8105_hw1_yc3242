@@ -5,7 +5,8 @@ date: "2018-09-17"
 output: github_document
 ---
 
-I use the tidyverse library through the whole problem set.
+I used the tidyverse library through the whole problem set.
+
 ```{r library}
 library(tidyverse)
 ```
@@ -13,6 +14,8 @@ library(tidyverse)
 ## Problem 1
 
 ### Create data frame 
+
+First, I created data frame for problem 1.
 
 ```{r create_df_p1}
 df_p1 = tibble(
@@ -27,40 +30,54 @@ df_p1 = tibble(
 
 ### Take the mean of each variable 
 
-```{r mean_p1, warning = FALSE}
+Next, I calculated the mean of each variable in the previous data frame.
+
+```{r mean_p1}
 mean(df_p1$vec_num)
 mean(df_p1$vec_logi)
 mean(df_p1$vec_char)
 mean(df_p1$vec_fac)
 ```
-The mean of numeric and logical vectors can be calculated since numeric and logical vector have numerical variables, while that of character and factor vectors cannot be taken because character and factor vector have categorical variables.
+
+As shown in the R document for `mean()`, this function applies to numeric and logical vectors, and thus we can give numeric and logical vectors as the input without getting any error. This is not the case for character and factor vectors. This in some sense natural, because the logical types can be mapped naturally to 1's and 0's so that the mean of a logical vector gives the proportion of `TRUE`s. However, for characters it is unclear what a mean would even mean and thus the error. For factor variables, although there is an underlying integer for each factor, the magnitude of these numbers do not have any quantitative meaning. Hence, the mean of such would not be meaningful at all and thus it seems natural that the `mean()` function cannot take factor variables as the argument. The bottomline is that, while the reason that first two do not give errors and the latter two do is because `mean()` allows only numeric and logical vectors as its arguments, this choice of design seems somewhat natural.
 
 
-### Convert variable types to numeric at once
+### Convert variable types to numeric 
 
-```{r convert_once_p1, eval = FALSE}
+I used `as.numeric()` function to convert non-numeric variables to numeric variables .
+
+```{r convert_p1, eval = FALSE}
 as.numeric(df_p1$vec_logi)
 as.numeric(df_p1$vec_char)
 as.numeric(df_p1$vec_fac)
 ```
-Logical and factor vectors were able to be converted to numeric vectors but character vector was not.
-Logical vector can be coerced to numeric vector as it is designed as `TRUE` becomes `r 1` and `FALSE` becomes `r 0`. Also, conversing factor vector to numeric vector is possible since factor vector is built on top of integers which are shown by coercion to numeric vector. However, character vector was not designed to be coerced to numeric vector. 
+
+Logical vector can be coerced to numeric vector as it is designed as `TRUE` becomes `r 1` and `FALSE` becomes `r 0`. Also, conversing a factor vector to numeric vector returns a vector of its underlying integers. For the character vector, every character became a `NA` type because all my variables were a letter from the alphabet, and thus the corresponding number, in some sense, is missing. However, as seen in the following chunk, characters composed of numbers gets converted to those numbers:
+
+```{r convert_p1_exp}
+as.numeric(c("4","2","17"))
+```
 
 
-### Convert variable types to numeric using steps
+### Convert variable types to numeric in two steps
 
-```{r convert_twice_p1, warning = FALSE}
+I tried to convert character vector to factor vector first and then finally coerced to numeric vector.
+For factor vector, I attempted to convert it to character vector first and then finally coerced to numeric vector.
+
+```{r convert_two_p1}
 as.numeric(as.factor(df_p1$vec_char))
 as.numeric(as.character(df_p1$vec_fac))
 ```
 
-Character vector can be converted to numeric vector because character vector was coerced to factor vector first which makes character vector to be stored as integers. However, factor vector cannot be converted to numeric vector since underlying integers of factor vector do not exist anymore by coercion to character vector.
+Character vector can be converted to numeric vector in two steps because character vector was coerced to factor vector first and factor vector can be converted to numeric vector as I described above. However, conversion from factor vactor to numeric vector in two steps introduced `NA`s since factor vector inside `as.character()` function was composed of letters from the alphabet and the function coarced this factor vector to corresponding character type. Therefore, `as.numeric()` function gave `NA`s as explained above.
 
 
 
 ## Problem 2
 
 ### Create data frame
+
+First, I created data frame for problem 2.
 
 ```{r create_df_p2}
 df_p2 = tibble(
@@ -80,9 +97,13 @@ df_p2 = tibble(
 
 ### Visualize data with scatterplots of y vs x
 
+I used ggplot2 library to draw scatterplots of y vs x.
+
 ```{r library_p2}
 library(ggplot2)
 ```
+
+I made three scatterplots of y vs x using different color points by variable types.
 
 ```{r scatterplot_p2}
 pos_xy_scatter = ggplot(df_p2, aes(x = x, y = y, color = pos_xy)) + geom_point()
@@ -94,6 +115,8 @@ To evaluate the binary value for ``x + y > 0``, the logical vector ``pos_xy`` an
 
 
 ### Save a scatterplot
+
+From the scatterplots I have made above, I saved the first scatterplot to my project directory. 
 
 ```{r save_scatterplot}
 ggsave("scatterplot_p2.pdf", plot = pos_xy_scatter)
