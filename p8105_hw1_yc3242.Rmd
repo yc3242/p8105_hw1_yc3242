@@ -5,7 +5,7 @@ date: "2018-09-17"
 output: github_document
 ---
 
-We use the tidyverse library through the whole problem set.
+I use the tidyverse library through the whole problem set.
 ```{r library}
 library(tidyverse)
 ```
@@ -13,6 +13,7 @@ library(tidyverse)
 ## Problem 1
 
 ### Create data frame 
+
 ```{r create_df_p1}
 df_p1 = tibble(
   vec_num = runif(10, min = 0, max = 5),
@@ -23,35 +24,44 @@ df_p1 = tibble(
 )
 ```
 
+
 ### Take the mean of each variable 
+
 ```{r mean_p1, warning = FALSE}
 mean(df_p1$vec_num)
 mean(df_p1$vec_logi)
 mean(df_p1$vec_char)
 mean(df_p1$vec_fac)
 ```
-The mean of numeric and logical vectors can be calculated since they are numerical variables. 
-However, that of character and factor vectors cannot be taken because they are categorical variables.
+The mean of numeric and logical vectors can be calculated since numeric and logical vector have numerical variables, while that of character and factor vectors cannot be taken because character and factor vector have categorical variables.
+
 
 ### Convert variable types to numeric at once
+
 ```{r convert_once_p1, eval = FALSE}
 as.numeric(df_p1$vec_logi)
 as.numeric(df_p1$vec_char)
 as.numeric(df_p1$vec_fac)
 ```
 Logical and factor vectors were able to be converted to numeric vectors but character vector was not.
+Logical vector can be coerced to numeric vector as it is designed as `TRUE` becomes `r 1` and `FALSE` becomes `r 0`. Also, conversing factor vector to numeric vector is possible since factor vector is built on top of integers which are shown by coercion to numeric vector. However, character vector was not designed to be coerced to numeric vector. 
+
 
 ### Convert variable types to numeric using steps
+
 ```{r convert_twice_p1, warning = FALSE}
 as.numeric(as.factor(df_p1$vec_char))
 as.numeric(as.character(df_p1$vec_fac))
 ```
-Character vector was converted to numeric vector. However, factor vector was not converted to numeric vector.
+
+Character vector can be converted to numeric vector because character vector was coerced to factor vector first which makes character vector to be stored as integers. However, factor vector cannot be converted to numeric vector since underlying integers of factor vector do not exist anymore by coercion to character vector.
+
 
 
 ## Problem 2
 
 ### Create data frame
+
 ```{r create_df_p2}
 df_p2 = tibble(
   x = rnorm(1000),
@@ -61,12 +71,15 @@ df_p2 = tibble(
   fac_pos_xy = as.factor(pos_xy)
 )
 ```
-* The **size** of the dataset df_p2 is `r dim(df_p2)`, which means the dataset has 5 vectors of the length 1000. 
+
+* The **size** of the dataset df_p2 is `r nrow(df_p2)` rows and `r ncol(df_p2)` columns.  
 * The **mean** and the **median** of **x** is `r round(mean(df_p2$x), 2)` and `r round(median(df_p2$x), 2)`, respectively. 
 * The **mean** and the **median** of **y** is `r round(mean(df_p2$y), 2)` and `r round(median(df_p2$y), 2)`, respectively. 
 * The **proportion** of cases for which the logical vector is _TRUE_ is `r round(sum(df_p2$num_pos_xy)/nrow(df_p2), 2)`. 
 
+
 ### Visualize data with scatterplots of y vs x
+
 ```{r library_p2}
 library(ggplot2)
 ```
@@ -76,10 +89,13 @@ pos_xy_scatter = ggplot(df_p2, aes(x = x, y = y, color = pos_xy)) + geom_point()
 num_pos_xy_scatter = ggplot(df_p2, aes(x = x, y = y, color = num_pos_xy)) + geom_point()
 fac_pos_xy_scatter = ggplot(df_p2, aes(x = x, y = y, color = fac_pos_xy)) + geom_point()
 ```
-To evaluate the binary value for ``x + y > 0``, while the logical vector ``pos_xy`` and the factor vector `` fac_pos_xy`` have the same binary color scale, the numeric vector ``num_pos_xy`` has different binary colors with a gradient legend.
 
-### Save a scattorplot
-```{r}
+To evaluate the binary value for ``x + y > 0``, the logical vector ``pos_xy`` and the factor vector `` fac_pos_xy`` use the same binary color scale but the numeric vector ``num_pos_xy`` has different binary colors with a gradient legend.
+
+
+### Save a scatterplot
+
+```{r save_scatterplot}
 ggsave("scatterplot_p2.pdf", plot = pos_xy_scatter)
 ```
 
